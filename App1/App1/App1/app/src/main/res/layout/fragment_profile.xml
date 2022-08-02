@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ProfileFragment"
+    android:orientation="vertical">
+
+   <include
+       android:id="@+id/top_layoutProfil"
+       layout="@layout/top_bare_layout"/>
+
+
+   <LinearLayout
+       android:id="@+id/detail_profil"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:padding="8dp"
+       android:layout_gravity="center"
+       android:orientation="vertical">
+
+      <TextView
+          android:id="@+id/titel_passion"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="ajouter un passion"
+          android:layout_marginBottom="20dp"
+          android:textSize="25sp"
+          android:textStyle="bold"
+          android:fontFamily="@font/poppins_bold"
+          android:gravity="center"/>
+      <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          app:hintEnabled="false">
+
+         <com.google.android.material.textfield.TextInputEditText
+             android:id="@+id/et_full_name"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:layout_marginLeft="12dp"
+             android:layout_marginRight="12dp"
+             android:background="@android:color/transparent"
+             android:drawableStart="@drawable/ic_person"
+             android:drawableLeft="@drawable/ic_person"
+             android:drawablePadding="12dp"
+             android:hint="naiama modhik"
+             android:imeOptions="actionNext"
+             android:minWidth="320dp"
+             android:minHeight="50dp"
+             android:singleLine="true" />
+      </com.google.android.material.textfield.TextInputLayout>
+      <com.google.android.material.textfield.TextInputLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="center"
+          app:hintEnabled="false">
+
+         <com.google.android.material.textfield.TextInputEditText
+             android:id="@+id/et_CIN"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:layout_marginLeft="12dp"
+             android:layout_marginRight="12dp"
+             android:background="@android:color/transparent"
+             android:drawableStart="@drawable/ic_lock"
+             android:drawableLeft="@drawable/ic_person"
+             android:drawablePadding="12dp"
+             android:hint="IA185162"
+             android:imeOptions="actionNext"
+             android:minWidth="320dp"
+             android:minHeight="50dp"
+             android:singleLine="true" />
+      </com.google.android.material.textfield.TextInputLayout><com.google.android.material.textfield.TextInputLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:gravity="center"
+       app:hintEnabled="false">
+
+      <com.google.android.material.textfield.TextInputEditText
+          android:id="@+id/et_adress"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_marginLeft="12dp"
+          android:layout_marginRight="12dp"
+          android:background="@android:color/transparent"
+          android:drawableStart="@drawable/ic_baseline_home"
+          android:drawableLeft="@drawable/ic_baseline_home"
+          android:drawablePadding="12dp"
+          android:hint="douadiat talojte 2 N 68"
+          android:imeOptions="actionNext"
+          android:minWidth="320dp"
+          android:minHeight="50dp"
+          android:singleLine="true" />
+   </com.google.android.material.textfield.TextInputLayout><com.google.android.material.textfield.TextInputLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:gravity="center"
+       app:hintEnabled="false">
+
+      <com.google.android.material.textfield.TextInputEditText
+          android:id="@+id/et_birthay"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_marginLeft="12dp"
+          android:layout_marginRight="12dp"
+          android:background="@android:color/transparent"
+          android:drawableStart="@drawable/ic_baseline_date"
+          android:drawableLeft="@drawable/ic_baseline_date"
+          android:drawablePadding="12dp"
+          android:hint="20/04/1999"
+          android:imeOptions="actionNext"
+          android:minWidth="320dp"
+          android:minHeight="50dp"
+          android:singleLine="true" />
+   </com.google.android.material.textfield.TextInputLayout>
+
+
+      <RadioGroup
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:checkedButton="@+id/rd_sexe"
+          android:orientation="horizontal"
+          android:padding="8dp"
+          android:layout_marginLeft="8dp">
+         <RadioButton
+             android:id="@+id/rd_femme"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/option_1"/>
+         <RadioButton
+             android:id="@+id/rd_homme"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/option_2"/>
+      </RadioGroup>
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+         android:text="some files"
+         android:gravity="center"/> <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+         android:text="some files"
+         android:gravity="center"/> <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+         android:text="some files"
+         android:gravity="center"/>
+   </LinearLayout>
+   <LinearLayout
+       android:layout_width="match_parent"
+
+       android:layout_height="wrap_content"
+       android:padding="8dp"
+       android:layout_gravity="center"
+       android:orientation="vertical">
+      <Button
+          android:id="@+id/button_modifier"
+          style="@style/Button1"
+          android:layout_width="342dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_marginTop="16dp"
+          android:text="Modifier" />
+      <Button
+          android:id="@+id/button_AJO"
+          style="@style/Button2"
+          android:layout_width="342dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="center"
+          android:layout_marginTop="16dp"
+          android:text="ajouter un autre fichier" />
+
+   </LinearLayout>
+
+</LinearLayout>
