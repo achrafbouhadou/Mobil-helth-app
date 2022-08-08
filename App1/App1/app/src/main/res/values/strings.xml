@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Health APP</string>
+    <string name="hint_username">utilisateur</string>
+    <string name="hint_password">Mot de passe</string>
+    <string name="button_sign_in">se connecter</string>
+    <string name="button_sign_up">Sign up</string>
+    <string name="button_send">Envoyer</string>
+    <string name="text_forgot_password">Mot de passe oublier?</string>
+    <string name="text_signin_message">Bonjour, se connecter avec votre compte</string>
+    <string name="text_forgot_password_title">Mot de passe oublier? No problem</string>
+    <string name="VotreEmail">votre email</string>
+    <string name="text_forgot_password_message">En va envoyer un mesage a votre boite email</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello from add Fragment</string>
+    <string name="option_1">femme</string>
+    <string name="option_2">homme</string>
+    <string name="sexe">sexe</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
+
+
+</resources>
