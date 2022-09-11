@@ -35,6 +35,10 @@ import com.example.santedigital.NavigationDrawer.NavigationDrawerFunction
 import com.example.santedigital.R
 import com.example.santedigital.Screen
 import com.example.santedigital.ui.theme.*
+import com.example.santedigital.ui.theme.ViewModel.PatientSharedViewModel
+import com.example.santedigital.ui.theme.ViewModel.visiteSharedViewModel
+import com.example.santedigital.ui.theme.modifier.adaptiveWidth
+import com.google.accompanist.flowlayout.FlowRow
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -42,12 +46,19 @@ fun VisiteScren(
     navController: NavController
 ) {
 
-    Box(modifier = Modifier.fillMaxSize()) {
+
+
+
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Purple200)) {
         Column {
             FilterIcon()
             InputIcon(label = "search", hint = "Recherche...")
 
-            FeatureSection(visites = listOf(
+            FeatureSection(
+
+                visites = listOf(
                 Visites(
                     IdPatient = "Moroco4543455",
                     IdVisite = "mo5545654",
@@ -56,6 +67,13 @@ fun VisiteScren(
                     Status = "active"
                 ),
                 Visites(
+                    IdPatient = "Moroco4543455",
+                    IdVisite = "mo5545654",
+                    Nom = "Youssef boussaboun",
+                    Date = "Janvier 05,2022 03:21 PM",
+                    Status = "active"
+                ),
+                        Visites(
                     IdPatient = "Moroco4543455",
                     IdVisite = "mo5545654",
                     Nom = "Youssef boussaboun",
@@ -74,7 +92,7 @@ fun VisiteScren(
 fun FilterIcon() {
 
     Row(modifier = Modifier
-        .fillMaxWidth()
+        .adaptiveWidth()
         .padding(bottom = 10.dp, start = 20.dp, end = 20.dp, top = 20.dp) ,
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically) {
@@ -171,7 +189,7 @@ fun InputIcon(
 
     TextField(
         modifier = Modifier
-            .fillMaxWidth()
+            .adaptiveWidth()
             .padding(end = 20.dp, start = 20.dp, top = 10.dp, bottom = 10.dp)
             .border(width = 1.dp, color = Color.Gray, shape = RoundedCornerShape(20.dp)),
         value = label,
@@ -211,10 +229,11 @@ fun InputIcon(
 @ExperimentalFoundationApi
 @Composable
 fun FeatureSection(visites: List<Visites>,
-    navController: NavController) {
+                   navController: NavController) {
+    val windowsInfo = rememberWindowsInfo()
     Column(modifier = Modifier.fillMaxWidth()) {
         Row(modifier = Modifier
-            .fillMaxWidth()
+
             .padding(end = 20.dp) ,horizontalArrangement = Arrangement.SpaceBetween,verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = "Active visites",
@@ -224,16 +243,30 @@ fun FeatureSection(visites: List<Visites>,
                 fontWeight = FontWeight.Bold
 
             )
-            ButtomAdd( navController = navController)
+            ButtomAdd(navController = navController )
         }
-        LazyColumn(
-            contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp, bottom = 100.dp),
-            modifier = Modifier.fillMaxHeight()
-        ) {
-            items(visites.size) {
-                FeatureItem(visites = visites[it], navController = navController)
+        /*
+
+         */
+        if(windowsInfo.screenWithInfo is WindowInfo.WindowsType.Compact){
+            LazyColumn(
+                contentPadding = PaddingValues(start = 7.5.dp, end = 7.5.dp, bottom = 100.dp),
+                modifier = Modifier.fillMaxHeight()
+            ) {
+                items(visites.size) {
+                    FeatureItem(visites = visites[it],navController = navController)
+                }
+            }
+        }else{
+            FlowRow(Modifier.padding(10.dp)) {
+
+                for (index in visites){
+                    FeatureItem(visites = index,navController = navController)
+                }
+
             }
         }
+
     }
 }
 
@@ -245,7 +278,8 @@ fun FeatureItem(
 
    Card(modifier = Modifier
        .padding(start = 20.dp, end = 20.dp, top = 15.dp, bottom = 15.dp)
-       .fillMaxWidth()
+       .width(325.dp)
+       .adaptiveWidth()
        .clip(shape = RoundedCornerShape(15.dp)), elevation = 20.dp) {
 
        Column(modifier = Modifier.padding(start = 20.dp, end = 5.dp, top = 20.dp, bottom = 20.dp)) {
@@ -328,14 +362,12 @@ fun FeatureItem(
 @Composable
 @Preview(showBackground = true)
 fun VisiteScreenPreview () {
-    VisiteScren(
-        navController = rememberNavController()
-    )
+    VisiteScren(navController = rememberNavController())
 }
 
 @Composable
 fun ButtomAdd(
-    navController: NavController
+navController: NavController
 ) {
     Box(modifier = Modifier
         .padding(5.dp)
@@ -362,8 +394,3 @@ fun ButtomAdd(
     }
     }
 
-@Composable
-fun NavigationDrawer() {
-
-
-}

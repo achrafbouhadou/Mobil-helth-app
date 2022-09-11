@@ -50,11 +50,11 @@ fun PatientListScren(
             Column(modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .fillMaxSize()) {
-            PatientListes(navController= navController)
-            PatientListes(navController= navController)
-            PatientListes(navController= navController)
-            PatientListes(navController= navController)
-            PatientListes(navController= navController)
+                PatientListes(navController= navController)
+                PatientListes(navController= navController)
+                PatientListes(navController= navController)
+                PatientListes(navController= navController)
+                PatientListes(navController= navController)
 
 
             }
@@ -117,16 +117,16 @@ fun PatientListes(
                     fontFamily = gilroyFont,
                     fontWeight = FontWeight.Normal)
 
-            IconButton(onClick = {
-                extendble = !extendble
-            }, modifier = Modifier
-                .alpha(ContentAlpha.medium)
-                .rotate(rotationState),
+                IconButton(onClick = {
+                    extendble = !extendble
+                }, modifier = Modifier
+                    .alpha(ContentAlpha.medium)
+                    .rotate(rotationState),
 
 
-                ) {
-                Icon(imageVector = Icons.Default.ArrowDropDown , contentDescription = "show deatails")
-            }
+                    ) {
+                    Icon(imageVector = Icons.Default.ArrowDropDown , contentDescription = "show deatails")
+                }
             }
             if (extendble){
                 Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally,
@@ -156,12 +156,12 @@ fun PatientListes(
 
                 }
             }
-            }
-
-
         }
 
+
     }
+
+}
 
 @Composable
 fun latesTest(
@@ -180,8 +180,8 @@ fun latesTest(
         Text(text = "$test",
             fontFamily = gilroyFont,
             fontSize = 15.sp,
-            fontWeight = FontWeight.Normal)     
-    }    
+            fontWeight = FontWeight.Normal)
+    }
 }
 
 @Composable

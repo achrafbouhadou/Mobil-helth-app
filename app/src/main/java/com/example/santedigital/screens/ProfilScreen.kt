@@ -58,43 +58,43 @@ fun ProfilNom(
     id:String,
     navController: NavController,
 ) {
-Row(modifier = Modifier
-    .fillMaxWidth()
-    .padding(20.dp), horizontalArrangement = Arrangement.SpaceBetween,
-    verticalAlignment = Alignment.CenterVertically) {
-    
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(20.dp), horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically) {
 
-    Column() {
-        Text(text = "$label",
-            fontFamily = gilroyFont,
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp
+
+        Column() {
+            Text(text = "$label",
+                fontFamily = gilroyFont,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
             )
 
-        Text(text = "ID : $id",
-            fontFamily = gilroyFont,
-            fontWeight = FontWeight.Light,
-            fontSize = 20.sp
-        )
+            Text(text = "ID : $id",
+                fontFamily = gilroyFont,
+                fontWeight = FontWeight.Light,
+                fontSize = 20.sp
+            )
 
+        }
+        Button(onClick = {
+            navController.navigate(route = Screen.AddInformationVisite.route)
+        },
+            modifier = Modifier
+                .height(60.dp)
+                .padding(5.dp)
+            ,
+            shape = RoundedCornerShape(10.dp),
+            elevation =  ButtonDefaults.elevation(
+                defaultElevation = 10.dp,
+                pressedElevation = 15.dp,
+                disabledElevation = 0.dp
+            ), colors = ButtonDefaults.buttonColors(Purple500)) {
+            Text(text = "Nouvelle Visite", color = Color.White, fontSize = 15.sp,  fontFamily = gilroyFont,
+                fontWeight = FontWeight.Normal,)
+        }
     }
-    Button(onClick = {
-        navController.navigate(route = Screen.AddInformationVisite.route)
-    },
-        modifier = Modifier
-            .height(60.dp)
-            .padding(5.dp)
-           ,
-        shape = RoundedCornerShape(10.dp),
-        elevation =  ButtonDefaults.elevation(
-            defaultElevation = 10.dp,
-            pressedElevation = 15.dp,
-            disabledElevation = 0.dp
-        ), colors = ButtonDefaults.buttonColors(Purple500)) {
-        Text(text = "Nouvelle Visite", color = Color.White, fontSize = 15.sp,  fontFamily = gilroyFont,
-            fontWeight = FontWeight.Normal,)
-    }
-}
 }
 @Composable
 fun detailPationt(
@@ -123,15 +123,15 @@ fun detailPationt(
         Column() {
             Row(horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-            Row() {
-                Icon(Icons.Rounded.PermIdentity, contentDescription ="information", modifier = Modifier.padding(start = 10.dp) )
-                Text(text = "Informations",
-                    fontFamily = gilroyFont,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(start = 10.dp)
-                )
-            }
+                Row() {
+                    Icon(Icons.Rounded.PermIdentity, contentDescription ="information", modifier = Modifier.padding(start = 10.dp) )
+                    Text(text = "Informations",
+                        fontFamily = gilroyFont,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(start = 10.dp)
+                    )
+                }
 
                 IconButton(onClick = {
                     extendble = !extendble
@@ -175,11 +175,11 @@ fun detailPationt(
                 }
             }
 
-            }
         }
-
-
     }
+
+
+}
 
 @Composable
 fun InputEdit(

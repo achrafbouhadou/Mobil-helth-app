@@ -47,7 +47,7 @@ fun AddFirstScreen(
 ) {
         Box(modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)){
+            .background(Purple200)){
         }
     Column() {
         NavigationButton()

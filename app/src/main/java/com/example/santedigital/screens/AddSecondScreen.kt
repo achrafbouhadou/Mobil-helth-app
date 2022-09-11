@@ -53,7 +53,7 @@ fun AddSecondeScreen(
 ) {
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(color = Color.White)){
+        .background(Purple200)){
     }
     Column() {
         NavigationButton()

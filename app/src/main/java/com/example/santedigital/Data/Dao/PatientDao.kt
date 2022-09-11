@@ -9,7 +9,8 @@ interface PatientDao {
     @Query("SELECT * FROM Patient ORDER BY idPatient ASC")
     fun getAllPatient(): Flow<List<Patient>>
 
-
+    @Query("SELECT * FROM Patient WHERE idPatient = :idPatient")
+    fun getPatient(idPatient: Int): Flow<Patient>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addPatient(patient: Patient)
