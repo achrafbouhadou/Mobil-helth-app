@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'io.realm.kotlin'
     id 'kotlin-kapt'
     id("dagger.hilt.android.plugin")
 }
@@ -24,9 +25,16 @@ android {
         exclude 'META-INF/atomicfu.kotlin_module'
     }
     buildTypes {
+        //def appId = "hops_sync_flex-ooedg"
+        def appId = "hops_sync-pyqcp"
+        debug {
+            buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
+        }
         release {
+            buildConfigField "String", "MONGODB_REALM_APP_ID", "\"${appId}\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {
@@ -53,6 +61,13 @@ android {
 }
 
 dependencies {
+
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt") {
+        version {
+            strictly("1.6.0-native-mt")
+        }
+    }
+    implementation 'io.realm.kotlin:library-sync:1.0.2'
 
     implementation 'androidx.core:core-ktx:1.8.0'
     //noinspection GradleDependency
@@ -86,6 +101,7 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.38.1")
     kapt("com.google.dagger:hilt-android-compiler:2.38.1")
+
 }
 
 // Allow references to generated code

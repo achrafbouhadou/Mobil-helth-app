@@ -39,21 +39,23 @@ import androidx.navigation.compose.rememberNavController
 import com.example.santedigital.R
 import com.example.santedigital.Screen
 import com.example.santedigital.ui.theme.*
+import com.example.santedigital.ui.theme.ViewModel.realm.PatientSharedViewModel
 
 
 @Composable
 fun AddFirstScreen(
-    navController: NavController
+    navController: NavController,
+    patientSharedViewModel: PatientSharedViewModel
 ) {
         Box(modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)){
+            .background(Purple200)){
         }
     Column() {
         NavigationButton()
         TopTitle("Nouveau visite")
         Avencement()
-        FromFields("Patient details",navController = navController)
+        FromFields("Patient details",navController = navController,patientSharedViewModel = patientSharedViewModel)
     }
 
 }
@@ -136,8 +138,20 @@ fun Avencement() {
 @Composable
 fun FromFields(
     title:String,
-    navController: NavController
+    navController: NavController,
+    patientSharedViewModel: PatientSharedViewModel
 ) {
+
+    val nom by patientSharedViewModel.Nom
+    val prenom by patientSharedViewModel.prenom
+    val sexe by patientSharedViewModel.sexe
+    val telephone by patientSharedViewModel.telephone
+    val situationFamil by patientSharedViewModel.situationFamil
+    val origin by patientSharedViewModel.origin
+    val residance by patientSharedViewModel.residance
+    val profession by patientSharedViewModel.profession
+    val niveauSocioceonomique by patientSharedViewModel.niveauSocioceonomique
+    val couverture_medical by patientSharedViewModel.couverture_medical
 
     Card(modifier = Modifier
         .fillMaxSize()
@@ -154,24 +168,24 @@ fun FromFields(
                 modifier = Modifier.padding(20.dp))
 
             Column(modifier = Modifier .verticalScroll(rememberScrollState())) {
-                Input("Nom","Nom",110)
-                Input("Prénom","Prénom",110)
-                InputPhone("téléphone","téléphone",10)
-                Input("origine","origine",110)
-                Input("place de résidence","place de résidence",200)
-                Input("profession","profession",110)
-                Input("couverture médicale ","couverture médicale ",110)
+                Input(onValueChange = {patientSharedViewModel.Nom.value = it},nom,"Nom",110)
+                Input(onValueChange = {patientSharedViewModel.prenom.value = it},prenom,"Prénom",110)
+                InputPhone(onValueChange = {patientSharedViewModel.telephone.value  = it},telephone,"téléphone",10)
+                Input(onValueChange = {patientSharedViewModel.origin.value = it},origin,"origine",110)
+                Input(onValueChange = {patientSharedViewModel.residance.value = it},residance,"place de résidence",200)
+                Input(onValueChange = {patientSharedViewModel.profession.value = it},profession,"profession",110)
+                Input(onValueChange = {patientSharedViewModel.couverture_medical.value = it},couverture_medical,"couverture médicale ",110)
 
                 SexeSection(
-                    sexe = listOf("Mr", "Mme"),label="Sexe"
+                    sexe = listOf("Mr", "Mme"),label="Sexe", OnSelectedItem = {patientSharedViewModel.sexe.value = it}
                 )
                 SexeSection(
-                    sexe = listOf("marié", "célibataire","divorcé"),label="Situation familiale"
+                    sexe = listOf("marié", "célibataire","divorcé"),label="Situation familiale",OnSelectedItem = {patientSharedViewModel.situationFamil.value = it}
                 )
                 SexeSection(
-                    sexe = listOf("Bas","Bon"),label="Niveau socioéconomique"
+                    sexe = listOf("Bas","Bon"),label="Niveau socioéconomique",OnSelectedItem = {patientSharedViewModel.niveauSocioceonomique.value = it}
                 )
-                ButtonNext("Suivant",navController = navController,Screen.AddInformationVisite.route)
+                ButtonNext(patientSharedViewModel = patientSharedViewModel,"Suivant",navController = navController,Screen.AddInformationVisite.route,)
             }
 
 
@@ -181,12 +195,14 @@ fun FromFields(
 
 @Composable
 fun Input(
-    label:String,
+    onValueChange : (String) -> Unit,
+    title:String,
     labele:String,
     maxLength:Int,
 ) {
-    var label by remember { mutableStateOf("") }
+    var  label by remember { mutableStateOf("") }
     val maxLength = maxLength
+
     val lightBlue = Color(0xffd8e6ff)
     val blue = Purple500
     Text(
@@ -200,7 +216,7 @@ fun Input(
     )
     TextField(
         modifier = Modifier.fillMaxWidth(),
-        value = label,
+        value = title,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = lightBlue,
@@ -211,7 +227,7 @@ fun Input(
         ,
         ),
         onValueChange = {
-            if (it.length <= maxLength) label = it
+            if (it.length <= maxLength) onValueChange(it)
         },
         shape = RoundedCornerShape(8.dp),
         singleLine = true,
@@ -238,7 +254,8 @@ fun Input(
 }
 @Composable
 fun InputPhone(
-    label:String,
+    onValueChange : (String) -> Unit,
+    title:String,
     labele:String,
     maxLength:Int,
 ) {
@@ -259,7 +276,7 @@ fun InputPhone(
     )
     TextField(
         modifier = Modifier.fillMaxWidth(),
-        value = label,
+        value = title,
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = lightBlue,
@@ -270,7 +287,7 @@ fun InputPhone(
         ,
         ),
         onValueChange = {
-            if (it.length <= maxLength) label = it
+            if (it.length <= maxLength) onValueChange(it)
         },
         shape = RoundedCornerShape(8.dp),
         singleLine = true,
@@ -297,6 +314,7 @@ fun InputPhone(
 }
 @Composable
 fun SexeSection(
+    OnSelectedItem : (String) -> Unit,
     sexe: List<String>,
     label:String
 ) {
@@ -323,6 +341,7 @@ fun SexeSection(
                     .width(100.dp)
                     .clickable {
                         selectedSexeIndex = it
+                        OnSelectedItem(sexe[it])
                     }
                     .clip(RoundedCornerShape(10.dp))
                     .background(
@@ -339,12 +358,15 @@ fun SexeSection(
 }
 @Composable
 fun ButtonNext(
+    patientSharedViewModel: PatientSharedViewModel,
     label:String,
     navController: NavController,
     route:String,
 ) {
     Button(onClick = {
+        patientSharedViewModel.creatPatient()
         navController.navigate(route = route)
+
     },
         modifier = Modifier
             .fillMaxWidth()
@@ -361,9 +383,5 @@ fun ButtonNext(
     }
 }
 
-@Composable
-@Preview(showBackground = true)
-fun AddFirstScreenPreview(){
-    AddFirstScreen(navController = rememberNavController())
-}
+
 

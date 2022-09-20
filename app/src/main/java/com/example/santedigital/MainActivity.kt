@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Group
 import androidx.compose.material.icons.rounded.Vaccines
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,6 +22,7 @@ import com.example.santedigital.NavigationDrawer.DrawerBody
 import com.example.santedigital.NavigationDrawer.DrawerHeader
 import com.example.santedigital.NavigationDrawer.NavigationItheme
 import com.example.santedigital.ui.theme.SanteDigitalTheme
+import com.example.santedigital.ui.theme.ViewModel.realm.PatientSharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -27,10 +30,13 @@ import kotlinx.coroutines.launch
 class MainActivity : ComponentActivity() {
 
     private lateinit var navController: NavHostController
+    private val patientSharedViewModel : PatientSharedViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             SanteDigitalTheme {
+
 
                 navController = rememberNavController()
                 val scaffoldState = rememberScaffoldState()
@@ -80,14 +86,14 @@ class MainActivity : ComponentActivity() {
                     },
 
                     ) {
-                   SetupNavGraph(navController =navController )
+                    SetupNavGraph(navController =navController ,patientSharedViewModel = patientSharedViewModel)
                 }
 
 
             }
-            }
         }
     }
+}
 
 
 

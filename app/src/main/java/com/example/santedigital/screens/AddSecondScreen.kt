@@ -53,7 +53,7 @@ fun AddSecondeScreen(
 ) {
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(color = Color.White)){
+        .background(Purple200)){
     }
     Column() {
         NavigationButton()
@@ -93,7 +93,7 @@ Column(modifier = Modifier.fillMaxSize(), verticalArrangement =  Arrangement.Spa
 
             }
             Column() {
-                ButtonNext("Ajouter", navController = navController, Screen.ListeDesVisite.route)
+               // ButtonNext("Ajouter", navController = navController, Screen.ListeDesVisite.route)
 
             }
 }

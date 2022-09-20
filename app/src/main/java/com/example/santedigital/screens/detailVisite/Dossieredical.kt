@@ -15,6 +15,7 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Save
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,19 +27,30 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.santedigital.FakeData.Motif
 import com.example.santedigital.FakeData.Quest
 import com.example.santedigital.FakeData.Resp
+import com.example.santedigital.screens.detailVisite.Conclusionclinique.Symptomes
+import com.example.santedigital.screens.detailVisite.Conclusionclinique.Syndromes
+import com.example.santedigital.screens.detailVisite.Diagnostics.Diagnostic
+import com.example.santedigital.screens.detailVisite.examinClinique.examinDappareil
+import com.example.santedigital.screens.detailVisite.examinClinique.examinGeneral
+import com.example.santedigital.ui.theme.Purple200
 import com.example.santedigital.ui.theme.Purple500
 import com.example.santedigital.ui.theme.Teal200
 import com.example.santedigital.ui.theme.gilroyFont
+import com.example.santedigital.viewModels.MotifViewModels
+import com.example.santedigital.viewModels.Motiftest
 import com.google.accompanist.flowlayout.FlowRow
 
 var showContent:Int = 0
 @Composable
 @Preview(showBackground = true)
 fun DossierMedical() {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Purple200)) {
         Column {
 
             NavigationPatient(
@@ -159,6 +171,7 @@ fun NavigationPatient(
             InputEdit(label = "devolopper", labele = "profession", maxLength = 101)
             InputEdit(label = "Cnops", labele = "couverture médicale", maxLength = 101)
             Column(modifier = Modifier.padding(start = 20.dp)) {
+                /*
                 SexeSection(
                     sexe = listOf("Mr", "Mme"), label = "Sexe"
                 )
@@ -168,6 +181,8 @@ fun NavigationPatient(
                 SexeSection(
                     sexe = listOf("Bas", "Bon"), label = "Niveau socioéconomique"
                 )
+
+                 */
             }
         } }
         Row(modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.End) {
@@ -296,7 +311,8 @@ fun NavigationPatient(
         }
     }
     if (showContent ==4){
-        TextBox(title = "Examen clinique")
+
+        examinClinique()
         Row(modifier = Modifier
             .fillMaxSize()
             , horizontalArrangement = Arrangement.Center) {
@@ -344,7 +360,7 @@ fun NavigationPatient(
         }
     }
     if (showContent ==5){
-        TextBox(title = "Conclusion clinique")
+        conclusionClinique()
         Row(modifier = Modifier
             .fillMaxSize()
             , horizontalArrangement = Arrangement.Center) {
@@ -392,52 +408,63 @@ fun NavigationPatient(
         }
     }
     if (showContent ==6){
-        TextBox(title = "Diagnostics à évoquer")
-        Row(modifier = Modifier
-            .fillMaxSize()
-            , horizontalArrangement = Arrangement.Center) {
+        Scaffold(
+            content = {
 
-            Button(onClick = {
-                selectedIndex = 5
-                showContent = 5
+                Box(modifier = Modifier.padding(20.dp)) {
+
+
+                    Diagnostic()
+                }
             },
-                modifier = Modifier
-                    .weight(5f)
-                    .height(100.dp)
-                    .padding(20.dp)
-                    .border(width = 1.dp, color = Color.Transparent),
-                shape = RoundedCornerShape(10.dp),
-                colors = ButtonDefaults.buttonColors(Purple500)
-            ) {
-                Text(
-                    text = "Retour",
-                    color = Color.White,
-                    fontSize = 15.sp,
-                    fontFamily = gilroyFont,
-                    fontWeight = FontWeight.Normal,
-                )
-            }
-            Button(onClick = {
-                selectedIndex = 7
-                showContent = 7
+            floatingActionButtonPosition = FabPosition.End,
+            floatingActionButton = {
+                Row(modifier = Modifier.padding(10.dp)) {
+
+                    Button(onClick = {
+                        selectedIndex = 6
+                        showContent = 6
+                    },
+                        modifier = Modifier
+                            .weight(5f)
+                            .height(100.dp)
+                            .padding(20.dp)
+                            .border(width = 1.dp, color = Color.Transparent),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(Purple500)
+                    ) {
+                        Text(
+                            text = "Retour",
+                            color = Color.White,
+                            fontSize = 15.sp,
+                            fontFamily = gilroyFont,
+                            fontWeight = FontWeight.Normal,
+                        )
+                    }
+                    Button(onClick = {
+                        selectedIndex = 8
+                        showContent = 8
+                    },
+                        modifier = Modifier
+                            .weight(5f)
+                            .height(100.dp)
+                            .padding(20.dp)
+                            .border(width = 1.dp, color = Color.Transparent),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(Purple500)
+                    ) {
+                        Text(
+                            text = "Suivant",
+                            color = Color.White,
+                            fontSize = 15.sp,
+                            fontFamily = gilroyFont,
+                            fontWeight = FontWeight.Normal,
+                        )
+                    }
+                }
             },
-                modifier = Modifier
-                    .weight(5f)
-                    .height(100.dp)
-                    .padding(20.dp)
-                    .border(width = 1.dp, color = Color.Transparent),
-                shape = RoundedCornerShape(10.dp),
-                colors = ButtonDefaults.buttonColors(Purple500)
-            ) {
-                Text(
-                    text = "Suivant",
-                    color = Color.White,
-                    fontSize = 15.sp,
-                    fontFamily = gilroyFont,
-                    fontWeight = FontWeight.Normal,
-                )
-            }
-        }
+        )
+
     }
     if (showContent ==7){
         TextBox(title = "Examens complémentaires")
@@ -735,9 +762,6 @@ fun TopAdd(
     Box(modifier = Modifier
         .clip(CircleShape)
         .background(Purple500)
-
-
-
     ) {
 
         Icon(
@@ -778,8 +802,15 @@ fun TopSave(
             contentDescription = "Save",
             modifier = Modifier
                 .size(50.dp)
-                .padding(10.dp).clickable {
-                    Toast.makeText(context , "les modification sont bien enregestrer",Toast.LENGTH_LONG).show()
+                .padding(10.dp)
+                .clickable {
+                    Toast
+                        .makeText(
+                            context,
+                            "les modification sont bien enregestrer",
+                            Toast.LENGTH_LONG
+                        )
+                        .show()
                 },
             tint = Color.White
         )
@@ -924,3 +955,155 @@ fun TextBox(
     )
 }
 
+/*
+Open Dialog Motif
+ */
+@Composable
+fun OpenDialog(
+    motifViewModels: MotifViewModels = viewModel()
+) {
+    var isopen = remember { mutableStateOf(false)  }
+    Button(  contentPadding = PaddingValues(0.dp),
+        modifier = Modifier.size(50.dp),
+        shape = CircleShape,
+        colors = ButtonDefaults.buttonColors(Purple500),
+        onClick = {
+        isopen.value = true
+    }) {
+        Icon(Icons.Rounded.Add,
+            contentDescription = "add new motif",
+            tint = Color.White,
+            modifier = Modifier
+                .size(50.dp)
+                .padding(10.dp)
+        )
+    }
+    var liste  = listOf<String>("motif1","motif2","motif3")
+    var selectIndex = remember {
+        mutableStateOf(liste)
+    }
+    if (isopen.value) {
+        AlertDialog(
+            onDismissRequest = {
+
+                isopen.value = false
+            },
+            title = {
+                Text(text = "choisire les Motif")
+            },
+            text = {
+                FlowRow(Modifier.padding(10.dp)) {
+
+                    for (index in liste){
+                      FilterItem(index = index, motifViewModels = motifViewModels)
+                    }
+                    for (index in motifViewModels.motifs){
+                        Text(text = "${index.Label}")
+                    }
+
+                }
+            },
+            confirmButton = {
+                Button(
+
+                    onClick = {
+                        isopen.value = false
+                    }) {
+                    Text("This is the Confirm Button")
+                }
+            },
+            dismissButton = {
+                Button(
+
+                    onClick = {
+                        isopen.value = false
+                    }) {
+                    Text("This is the dismiss Button")
+                }
+            }
+        )
+    }
+}
+
+@Composable
+fun FilterItem(
+    index: String,
+    motifViewModels: MotifViewModels
+
+
+
+    ) {
+
+
+    var isSelected by rememberSaveable {
+        mutableStateOf(false)
+    }
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .padding(end = 15.dp, bottom = 15.dp)
+            .width(100.dp)
+            .clickable {
+                isSelected = !isSelected
+                if (isSelected) {
+                    motifViewModels.addmotif(Motiftest(index))
+                } else {
+                    motifViewModels.removemotif(Motiftest(index))
+                }
+
+            }
+            .clip(RoundedCornerShape(10.dp))
+            .background(
+                if (isSelected) Teal200 else Color.Gray
+
+            )
+            .padding(15.dp)
+    ) {
+        Text(text =index, color = Color.White)
+    }
+}
+/*
+examin clinique
+avec Examen général et Examen des appareils
+comp
+ */
+@Composable
+fun examinClinique() {
+    var state by remember { mutableStateOf(0) }
+    val titles = listOf("Examen général","Examen des appareils")
+    Column() {
+        TabRow(selectedTabIndex = state, backgroundColor = Purple500, contentColor = Color.White) {
+            titles.forEachIndexed { index, title ->
+                Tab(
+                    text = { Text(title)  },
+
+                    selected = state == index,
+                    onClick = { state = index }
+                )
+            }
+        }
+        Box(modifier = Modifier.padding(20.dp)) {
+
+
+            if (state == 0){
+
+                examinGeneral()
+            }else{
+                examinDappareil()
+            }
+        }
+    }
+
+}
+/*
+conclusionClinique
+
+comp
+ */
+@Composable
+fun conclusionClinique () {
+    Symptomes()
+    Syndromes()
+
+
+}

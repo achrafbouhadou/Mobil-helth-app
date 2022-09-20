@@ -26,8 +26,11 @@ object dataBaseModule  {
     ).build()
 
     @Singleton
+
     @Provides
     fun providePatientDao(dataBase: SanteDataBase) = dataBase.patientDao()
 
-
+    @Singleton
+    @Provides
+    fun provideVisitDao(dataBase: SanteDataBase) = dataBase.visitDao()
 }

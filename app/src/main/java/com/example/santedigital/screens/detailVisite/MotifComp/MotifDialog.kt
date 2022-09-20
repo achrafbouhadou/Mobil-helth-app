@@ -1,4 +1,4 @@
-package com.example.santedigital.screens.MotifComp
+package com.example.santedigital.screens.detailVisite.MotifComp
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*

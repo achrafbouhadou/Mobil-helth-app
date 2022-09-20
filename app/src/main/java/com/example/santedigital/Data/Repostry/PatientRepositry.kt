@@ -15,5 +15,8 @@ class PatientRepositry @Inject  constructor(
     private val patientDao: PatientDao
 ) {
     val getAllPatients : Flow<List<Patient>> = patientDao.getAllPatient()
+    fun getPatient (patientId : Int) : Flow<Patient> {
+        return patientDao.getPatient(idPatient = patientId)
+    }
 }
 

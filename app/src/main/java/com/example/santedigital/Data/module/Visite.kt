@@ -8,7 +8,8 @@ import java.util.*
 
 @Entity
 data class Visite(
-    @PrimaryKey val IdVisite :Int,
+    @PrimaryKey
+    val IdVisite :Int,
     val date: Date,
     val cause:String,
     val service:String,

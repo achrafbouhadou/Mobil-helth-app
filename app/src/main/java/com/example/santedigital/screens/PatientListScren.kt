@@ -7,6 +7,8 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -30,33 +32,40 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.santedigital.Data.Repostry.PatientRepositry
+import com.example.santedigital.Data.module.realm.Patient
 import com.example.santedigital.Screen
+import com.example.santedigital.ui.theme.Purple200
 import com.example.santedigital.ui.theme.Purple500
 import com.example.santedigital.ui.theme.Teal200
-import com.example.santedigital.ui.theme.ViewModel.PatientSharedViewModel
+import com.example.santedigital.ui.theme.ViewModel.realm.PatientSharedViewModel
+
 import com.example.santedigital.ui.theme.gilroyFont
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.runBlocking
 
 @Composable
 fun PatientListScren(
-    navController: NavController
+    navController: NavController,
+    patientSharedViewModel: PatientSharedViewModel
 ) {
+LaunchedEffect(key1 = true){
+    patientSharedViewModel.onStart()
+}
+   val patientsize = patientSharedViewModel.allPatient.collectAsState().value.size
+    val allpatient by patientSharedViewModel.allPatient.collectAsState()
 
-    Box(modifier = Modifier.fillMaxSize()) {
+
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Purple200)) {
         Column() {
 
             InputIcon(label = "search", hint = "Recherche...")
-            titleVisite(title = "Liste des patients")
+            titleVisite(title = "Liste des patients $patientsize")
+
             Column(modifier = Modifier
-                .verticalScroll(rememberScrollState())
                 .fillMaxSize()) {
-            PatientListes(navController= navController)
-            PatientListes(navController= navController)
-            PatientListes(navController= navController)
-            PatientListes(navController= navController)
-            PatientListes(navController= navController)
-
-
+                patientListeLazy(patients =allpatient , navController =navController )
             }
         }
     }
@@ -117,16 +126,16 @@ fun PatientListes(
                     fontFamily = gilroyFont,
                     fontWeight = FontWeight.Normal)
 
-            IconButton(onClick = {
-                extendble = !extendble
-            }, modifier = Modifier
-                .alpha(ContentAlpha.medium)
-                .rotate(rotationState),
+                IconButton(onClick = {
+                    extendble = !extendble
+                }, modifier = Modifier
+                    .alpha(ContentAlpha.medium)
+                    .rotate(rotationState),
 
 
-                ) {
-                Icon(imageVector = Icons.Default.ArrowDropDown , contentDescription = "show deatails")
-            }
+                    ) {
+                    Icon(imageVector = Icons.Default.ArrowDropDown , contentDescription = "show deatails")
+                }
             }
             if (extendble){
                 Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally,
@@ -156,12 +165,12 @@ fun PatientListes(
 
                 }
             }
-            }
-
-
         }
 
+
     }
+
+}
 
 @Composable
 fun latesTest(
@@ -180,12 +189,98 @@ fun latesTest(
         Text(text = "$test",
             fontFamily = gilroyFont,
             fontSize = 15.sp,
-            fontWeight = FontWeight.Normal)     
-    }    
+            fontWeight = FontWeight.Normal)
+    }
 }
 
 @Composable
-@Preview(showBackground = true)
-fun LisiteDesPatientPreview() {
-    PatientListScren(navController = rememberNavController())
+fun patientListeLazy(
+    patients : List<Patient>,
+    navController: NavController
+) {
+    Column() {
+        LazyColumn(){
+            items(patients){ patient ->
+                var extendble by remember {
+                    mutableStateOf(false)
+                }
+                val rotationState by animateFloatAsState(
+                    targetValue = if (extendble) 180f else 0f
+                )
+                Card(modifier = Modifier
+                    .padding(12.dp)
+                    .fillMaxWidth()
+                    .animateContentSize(
+                        animationSpec = tween(
+                            durationMillis = 300,
+                            easing = LinearOutSlowInEasing
+                        )
+                    )
+                    .clickable {
+                        extendble = !extendble
+                    }, shape = RoundedCornerShape(20.dp)) {
+
+                    Column() {
+                        Row(horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
+                            Icon( Icons.Rounded.AccountCircle,
+                                contentDescription = "patient Image",
+                                modifier = Modifier
+                                    .size(55.dp)
+                                    .padding(end = 10.dp),
+                                tint = Teal200
+                            )
+                            Text(text = "${patient.prenom} ${patient.nom}",
+                                fontFamily = gilroyFont,
+                                fontWeight = FontWeight.Bold)
+                            Text(text = "${patient.idPatient}",
+                                fontFamily = gilroyFont,
+                                fontWeight = FontWeight.Normal)
+
+                            IconButton(onClick = {
+                                extendble = !extendble
+                            }, modifier = Modifier
+                                .alpha(ContentAlpha.medium)
+                                .rotate(rotationState),
+
+
+                                ) {
+                                Icon(imageVector = Icons.Default.ArrowDropDown , contentDescription = "show deatails")
+                            }
+                        }
+                        if (extendble){
+                            Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.fillMaxWidth()) {
+                                latesTest(label = "Glucose", test ="1.44 g" )
+                                latesTest(label = "Po2", test ="98" )
+                                latesTest(label = "Tension", test ="145" )
+
+                            }
+                            Row(horizontalArrangement = Arrangement.Center, modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(20.dp)) {
+                                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable{
+                                    navController.navigate(route = "profil_screen/"+patient.idPatient.toInt())
+                                }) {
+                                    Text(text = "voire le profil",
+                                        fontFamily = gilroyFont,
+                                        fontSize = 20.sp,
+                                        fontWeight = FontWeight.Normal,
+                                        color = Purple500
+                                    )
+                                    Icon(Icons.Rounded.ArrowForward,
+                                        contentDescription ="voire le profile" ,
+                                        tint = Purple500)
+
+                                }
+
+                            }
+                        }
+                    }
+
+
+                }
+            }
+        }
+    }
 }

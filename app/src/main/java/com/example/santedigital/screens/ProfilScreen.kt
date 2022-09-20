@@ -4,13 +4,10 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -30,21 +27,33 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.santedigital.Data.module.realm.Patient
 import com.example.santedigital.Screen
+import com.example.santedigital.ui.theme.Purple200
 import com.example.santedigital.ui.theme.Purple500
 import com.example.santedigital.ui.theme.Teal200
+import com.example.santedigital.ui.theme.ViewModel.realm.PatientSharedViewModel
 import com.example.santedigital.ui.theme.gilroyFont
 
 @Composable
 fun ProfilScreen(
-    navController: NavController
+    navController: NavController,
+    patientSharedViewModel: PatientSharedViewModel,
+    id : Int?
 ) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column() {
-
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Purple200)) {
+        Column {
+            LaunchedEffect(key1 = true ){
+                if (id != null) {
+                    patientSharedViewModel.getPatientById(id)
+                }
+            }
+            val patient by patientSharedViewModel.patient.collectAsState()
             titleVisite(title = "Profile")
-            ProfilNom(label = "Achraf BOuhadou", id = "moroc45446",navController=navController)
-            detailPationt()
+            ProfilNom(label = "${patient.prenom} ${patient.nom}", id = "${patient.idPatient}",navController=navController)
+            detailPationt(patient = patient)
             fishierPationt()
             visiteListe()
 
@@ -58,47 +67,47 @@ fun ProfilNom(
     id:String,
     navController: NavController,
 ) {
-Row(modifier = Modifier
-    .fillMaxWidth()
-    .padding(20.dp), horizontalArrangement = Arrangement.SpaceBetween,
-    verticalAlignment = Alignment.CenterVertically) {
-    
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(20.dp), horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically) {
 
-    Column() {
-        Text(text = "$label",
-            fontFamily = gilroyFont,
-            fontWeight = FontWeight.Bold,
-            fontSize = 20.sp
+
+        Column() {
+            Text(text = "$label",
+                fontFamily = gilroyFont,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
             )
 
-        Text(text = "ID : $id",
-            fontFamily = gilroyFont,
-            fontWeight = FontWeight.Light,
-            fontSize = 20.sp
-        )
+            Text(text = "ID : $id",
+                fontFamily = gilroyFont,
+                fontWeight = FontWeight.Light,
+                fontSize = 20.sp
+            )
 
+        }
+        Button(onClick = {
+            navController.navigate(route = Screen.AddInformationVisite.route)
+        },
+            modifier = Modifier
+                .height(60.dp)
+                .padding(5.dp)
+            ,
+            shape = RoundedCornerShape(10.dp),
+            elevation =  ButtonDefaults.elevation(
+                defaultElevation = 10.dp,
+                pressedElevation = 15.dp,
+                disabledElevation = 0.dp
+            ), colors = ButtonDefaults.buttonColors(Purple500)) {
+            Text(text = "Nouvelle Visite", color = Color.White, fontSize = 15.sp,  fontFamily = gilroyFont,
+                fontWeight = FontWeight.Normal,)
+        }
     }
-    Button(onClick = {
-        navController.navigate(route = Screen.AddInformationVisite.route)
-    },
-        modifier = Modifier
-            .height(60.dp)
-            .padding(5.dp)
-           ,
-        shape = RoundedCornerShape(10.dp),
-        elevation =  ButtonDefaults.elevation(
-            defaultElevation = 10.dp,
-            pressedElevation = 15.dp,
-            disabledElevation = 0.dp
-        ), colors = ButtonDefaults.buttonColors(Purple500)) {
-        Text(text = "Nouvelle Visite", color = Color.White, fontSize = 15.sp,  fontFamily = gilroyFont,
-            fontWeight = FontWeight.Normal,)
-    }
-}
 }
 @Composable
 fun detailPationt(
-
+patient: Patient
 ) {
     var extendble by remember {
         mutableStateOf(false)
@@ -123,15 +132,15 @@ fun detailPationt(
         Column() {
             Row(horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-            Row() {
-                Icon(Icons.Rounded.PermIdentity, contentDescription ="information", modifier = Modifier.padding(start = 10.dp) )
-                Text(text = "Informations",
-                    fontFamily = gilroyFont,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    modifier = Modifier.padding(start = 10.dp)
-                )
-            }
+                Row() {
+                    Icon(Icons.Rounded.PermIdentity, contentDescription ="information", modifier = Modifier.padding(start = 10.dp) )
+                    Text(text = "Informations",
+                        fontFamily = gilroyFont,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(start = 10.dp)
+                    )
+                }
 
                 IconButton(onClick = {
                     extendble = !extendble
@@ -151,14 +160,15 @@ fun detailPationt(
                     .verticalScroll(rememberScrollState())) {
 
 
-                    InputEdit(label = "Bouhadou", labele = "Nom", maxLength = 101)
-                    InputEdit(label = "Achraf ", labele = "Prénom", maxLength = 101)
-                    InputEdit(label = "+212 682 457 19", labele = "téléphone", maxLength = 101)
-                    InputEdit(label = "Ait ishak", labele = "origine", maxLength = 101)
-                    InputEdit(label = "Marrakech", labele = "place de résidence", maxLength = 101)
-                    InputEdit(label = "devolopper", labele = "profession", maxLength = 101)
-                    InputEdit(label = "Cnops", labele = "couverture médicale", maxLength = 101)
+                    InputEdit(label = "${patient.nom}", labele = "Nom", maxLength = 101)
+                    InputEdit(label = "${patient.prenom} ", labele = "Prénom", maxLength = 101)
+                    InputEdit(label = "${patient.telephone}", labele = "téléphone", maxLength = 101)
+                    InputEdit(label = "${patient.origin}", labele = "origine", maxLength = 101)
+                    InputEdit(label = "${patient.residance}", labele = "place de résidence", maxLength = 101)
+                    InputEdit(label = "${patient.profession}", labele = "profession", maxLength = 101)
+                    InputEdit(label = "${patient.couverture_medical}", labele = "couverture médicale", maxLength = 101)
                     Column(modifier = Modifier.padding(start = 20.dp)) {
+                        /*
                         SexeSection(
                             sexe = listOf("Mr", "Mme"), label = "Sexe"
                         )
@@ -168,6 +178,8 @@ fun detailPationt(
                         SexeSection(
                             sexe = listOf("Bas", "Bon"), label = "Niveau socioéconomique"
                         )
+
+                         */
                     }
                 }
                 Row(modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.End) {
@@ -175,11 +187,11 @@ fun detailPationt(
                 }
             }
 
-            }
         }
-
-
     }
+
+
+}
 
 @Composable
 fun InputEdit(
@@ -448,11 +460,4 @@ fun visteDetails(
 
 
     }
-}
-@Composable
-@Preview(showBackground = true)
-fun ProfilScreenPreview() {
-    ProfilScreen(
-        navController = rememberNavController()
-    )
 }

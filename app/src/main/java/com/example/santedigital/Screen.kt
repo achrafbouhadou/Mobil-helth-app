@@ -6,5 +6,5 @@ sealed class Screen(val route: String){
     object ListeDesVisite : Screen(route = "visite_screen")
     object ListeDesMotifs : Screen(route = "motif_screen")
     object PatientListScren : Screen(route = "patients_screen")
-    object ProfilScreen : Screen(route = "profil_screen")
+    object ProfilScreen : Screen(route = "profil_screen/{idPatient}")
 }
