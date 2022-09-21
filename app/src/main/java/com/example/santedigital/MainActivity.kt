@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SanteDigitalTheme {
-
+                
 
                 navController = rememberNavController()
                 val scaffoldState = rememberScaffoldState()

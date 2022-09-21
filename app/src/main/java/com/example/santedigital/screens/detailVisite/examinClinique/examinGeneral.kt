@@ -15,12 +15,18 @@ import androidx.compose.runtime.*
 @Composable
 fun examinGeneral() {
     Column( )  {
+
        // InputPhone(labele = "CONSCIENCE", maxLength = 101, label = "CONSCIENCE")
+
+       // InputPhone(labele = "CONSCIENCE", maxLength = 101, label = "CONSCIENCE")
+
         Row(horizontalArrangement = Arrangement.SpaceBetween) {
             switchAndTitle(label = "Pupilles symétriques ")
             switchAndTitle(label = "Pupilles réactives ")
         }
+
         /*
+
         InputPhone(labele = "FRÉQUENCE RESPIRATOIRE", maxLength = 101, label = "FRÉQUENCE RESPIRATOIRE")
         InputPhone(labele = "FRÉQUENCE CARDIAQUE", maxLength = 101, label = "FRÉQUENCE CARDIAQUE")
         InputPhone(labele = "TENSION ARTÉRIELLE", maxLength = 101, label = "TENSION ARTÉRIELLE")
@@ -35,7 +41,11 @@ fun examinGeneral() {
 
 
 
-}
+
+    }
+
+
+
 
 @Composable
 fun switchAndTitle(

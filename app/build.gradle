@@ -98,11 +98,12 @@ dependencies {
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
     //noinspection GradleDependency
     androidTestImplementation "androidx.room:room-testing:$rootProject.roomVersion"
-
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
     implementation("com.google.dagger:hilt-android:2.38.1")
     kapt("com.google.dagger:hilt-android-compiler:2.38.1")
 
 }
+
 
 // Allow references to generated code
 kapt {

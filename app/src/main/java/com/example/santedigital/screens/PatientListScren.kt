@@ -65,7 +65,17 @@ LaunchedEffect(key1 = true){
 
             Column(modifier = Modifier
                 .fillMaxSize()) {
+
                 patientListeLazy(patients =allpatient , navController =navController )
+
+                PatientListes(navController= navController)
+                PatientListes(navController= navController)
+                PatientListes(navController= navController)
+                PatientListes(navController= navController)
+                PatientListes(navController= navController)
+
+
+
             }
         }
     }

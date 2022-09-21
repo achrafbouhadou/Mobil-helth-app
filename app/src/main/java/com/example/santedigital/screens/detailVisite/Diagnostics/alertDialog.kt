@@ -42,14 +42,19 @@ fun dialogDiagnostic(
             )
         },
         text = {
+
             /*
+=======
+>>>>>>> origin/master
             Column() {
                 Input(label = "Titre de Diagnostic", labele = "Titre de Diagnostic", maxLength =101 )
                 Input(label = "Pour", labele = "Pour", maxLength =199 )
                 Input(label = "Contre", labele = "Contre", maxLength =199 )
             }
+<<<<<<< HEAD
 
              */
+
         },
         buttons = {
             Row(
